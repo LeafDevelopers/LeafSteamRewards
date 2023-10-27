@@ -16,7 +16,7 @@ Config.rewardTime = "restart"
 -- BOTH - Send logs to both discord and LeafLogs
 -- NONE - Don't send logs anywhere
 Config.logs = "both"
-Config.discordWebhook = "https://discord.com/api/webhooks/1167471685235126383/zP9sDwlu_d3XU48bTDMqCLzg5sHkz9RRFjDhcmfkMR5zBasq1G_xnWA0zPR0worEwYvN" -- Discord webhook (Required if logs is set to discord or both)
+Config.discordWebhook = "YOUR_DISCORD_WEBHOOK" -- Discord webhook (Required if logs is set to discord or both)
 
 Config.rewards = {
     {
