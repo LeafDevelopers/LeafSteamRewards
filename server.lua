@@ -74,7 +74,7 @@ RegisterCommand(Config.command, function(source)
     -- Check if user has claimed reward
     local claimTimestamp = claimed[id]
     if claimTimestamp then
-        if string.lower(Config.rewardTime) == 'restart' then
+        if string.lower(Config.rewardTime) == 'restart' or string.lower(Config.rewardTime) == 'once' then
             Config.Notify(src, Config.lang["already_claimed"])
             return
         end
@@ -90,7 +90,7 @@ RegisterCommand(Config.command, function(source)
             ['@id'] = id
         }, function(result)
             if result[1] then
-                if string.lower(Config.rewardTime) == 'restart' then
+                if string.lower(Config.rewardTime) == 'once' then
                     Config.Notify(src, Config.lang["already_claimed"])
                     return
                 end

@@ -17,6 +17,7 @@ Config.framework = "esx" -- Framework (esx, qbcore)
 -- WEEKLY - Player can claim reward every 7 days
 -- MONTHLY - Player can claim reward every 30 days
 -- RESTART - Player can claim reward every server restart
+-- ONCE - Player can only claim reward once
 Config.rewardTime = "restart"
 
 -- DISCORD - Send logs to discord webhook
