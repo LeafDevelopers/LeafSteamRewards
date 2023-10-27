@@ -105,13 +105,14 @@ RegisterCommand(Config.command, function(source)
     end
 
     local steamName = GetPlayerName(src)
-    if string.lower(Config.mode) == 'name' then
+    if string.lower(Config.mode) == 'name' or string.lower(Config.mode) == 'both' then
         -- Check if user has server name in steam name
         if not string.find(steamName, Config.serverName) then
             Config.Notify(src, string.format(Config.lang["no_steam_name"], Config.serverName))
             return
         end
-    elseif string.lower(Config.mode) == 'group' then
+    end
+    if string.lower(Config.mode) == 'group' or string.lower(Config.mode) == 'both' then
         -- Check if user is in steam group
         local steamID = id
         if framework == 'esx' then

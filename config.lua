@@ -1,14 +1,15 @@
 Config = {}
 
 Config.command = "steamreward" -- Command to claim steam reward
-Config.serverName = "Leaf" -- Server name or what you want to have in their steam name (Required if mode is set to name)
-Config.groupID = "111" -- Steam groupID to check for (Required if mode is set to group)
+Config.serverName = "YOUR_SERVER_NAME" -- Server name or what you want to have in their steam name (Required if mode is set to name)
+Config.groupID = "YOUR_GROUPID" -- Steam groupID to check for (Required if mode is set to group)
 -- How to get groupID: https://steamcommunity.com/groups/<group url>/edit
 -- The groupID is first field. The number out from ID
 
 -- NAME - Player must have server name in their steam name
 -- GROUP - Player must be in a specific steam group
-Config.mode = "GROUP"
+-- BOTH - Player must have server name in their steam name and be in a specific steam group
+Config.mode = "NAME"
 
 Config.framework = "esx" -- Framework (esx, qbcore)
 
