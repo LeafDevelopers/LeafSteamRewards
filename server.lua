@@ -26,7 +26,9 @@ if string.lower(Config.logs) == "both" or string.lower(Config.logs) == "leaflogs
         header = {"SteamName", "Source", "ID"}
     }
     
-    exports.LeafLogs:RegisterLogger(loggerData)
+    if exports.LeafLogs then
+        exports.LeafLogs:RegisterLogger(loggerData)
+    end
     AddEventHandler('leaflogs:getLoggers', function()
         exports.LeafLogs:RegisterLogger(loggerData)
     end)
@@ -102,11 +104,79 @@ RegisterCommand(Config.command, function(source)
         end)
     end
 
-    -- Check if user has server name in steam name
     local steamName = GetPlayerName(src)
-    if not string.find(steamName, Config.serverName) then
-        Config.Notify(src, string.format(Config.lang["no_steam_name"], Config.serverName))
-        return
+    if string.lower(Config.mode) == 'name' then
+        -- Check if user has server name in steam name
+        if not string.find(steamName, Config.serverName) then
+            Config.Notify(src, string.format(Config.lang["no_steam_name"], Config.serverName))
+            return
+        end
+    elseif string.lower(Config.mode) == 'group' then
+        -- Check if user is in steam group
+        local steamID = id
+        if framework == 'esx' then
+            for _, v in pairs(GetPlayerIdentifiers(src)) do
+                if string.find(v, 'steam:') then
+                    steamID = v
+                    break
+                end
+            end
+        end
+
+        if not steamID then
+            Config.Notify(src, Config.lang["no_steam"])
+            return
+        end
+
+        steamID = tonumber(string.gsub(steamID, 'steam:', ''), 16)
+
+        local steamAPIKey = GetConvar('steam_webApiKey', '')
+        local url = string.format('https://api.steampowered.com/ISteamUser/GetUserGroupList/v1?key=%s&steamid=%s', steamAPIKey, steamID)
+
+        local promise = promise.new()
+
+        PerformHttpRequest(url, function (status, body, headers, errorData)
+            if status ~= 200 then
+                Config.Notify(src, Config.lang["error"])
+                promise:resolve(false)
+                return
+            end
+            
+            local data = json.decode(body)
+            if not data.response then
+                Config.Notify(src, Config.lang["error"])
+                promise:resolve(false)
+                return
+            end
+
+            local groups = data.response.groups
+            if not groups then
+                Config.Notify(src, Config.lang["error"])
+                promise:resolve(false)
+                return
+            end
+
+            local found = false
+            for _, v in pairs(groups) do
+                if v.gid == Config.groupID then
+                    found = true
+                    break
+                end
+            end
+
+            if not found then
+                Config.Notify(src, string.format(Config.lang["no_group"], "https://steamcommunity.com/groups/" .. Config.groupID))
+                promise:resolve(false)
+                return
+            end
+
+            promise:resolve(true)
+        end)
+
+        local result = Citizen.Await(promise)
+        if not result then
+            return
+        end
     end
 
     -- Give rewards

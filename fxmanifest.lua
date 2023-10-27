@@ -3,7 +3,7 @@ fx_version 'cerulean'
 games {"gta5"}
 
 author "Leaf Developers"
-version '1.0.0'
+version '0.0.1'
 
 lua54 'yes'
 

@@ -1,7 +1,14 @@
 Config = {}
 
 Config.command = "steamreward" -- Command to claim steam reward
-Config.serverName = "Leaf" -- Server name or what you want to have in their steam name
+Config.serverName = "Leaf" -- Server name or what you want to have in their steam name (Required if mode is set to name)
+Config.groupID = "111" -- Steam groupID to check for (Required if mode is set to group)
+-- How to get groupID: https://steamcommunity.com/groups/<group url>/edit
+-- The groupID is first field. The number out from ID
+
+-- NAME - Player must have server name in their steam name
+-- GROUP - Player must be in a specific steam group
+Config.mode = "GROUP"
 
 Config.framework = "esx" -- Framework (esx, qbcore)
 
@@ -31,6 +38,8 @@ Config.lang = {
     ["already_claimed"] = "You have already claimed your reward!",
     ["no_steam"] = "You must have steam running to claim your reward!",
     ["no_steam_name"] = "You must have %s in your steam name to claim your reward!",
+    ["error"] = "Something went wrong, please try again later!",
+    ["no_group"] = "You must be in the steam group to claim your reward!\nGroup: %s",
 }
 
 Config.Notify = function (src, msg)
